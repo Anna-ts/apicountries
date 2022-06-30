@@ -1,16 +1,17 @@
 import * as React from "react"
+import { useEffect, useState } from 'react';
 import useLocalStorage from 'use-local-storage'
 import Header from "../header/Header"
 import {container} from './layout.module.css'
-import {useEffect} from "react";
 
 const Layout = ({children}) => {
 
+    const [defaultDark, setDefaultDark] = useState(false)
+
     useEffect(() => {
-        return () => {
+        setDefaultDark(window.matchMedia('(prefers-color-scheme: dark)').matches)
+    }, [])
 
-
-    const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches
     const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light')
 
     const switchTheme = () => {
@@ -25,8 +26,6 @@ const Layout = ({children}) => {
             {children}
         </main>
     )
-        };
-    }, []);
 }
 
 export default Layout
